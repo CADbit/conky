@@ -13,8 +13,10 @@ own_window_hints undecorate,sticky,skip_taskbar,skip_pager
 minimum_size 500 5
 maximum_width 250
 default_color white
+
 alignment top_right
-gap_x 12
+ximerama_head = 0
+gap_x 20
 gap_y 20
 uppercase no
 override_utf8_locale yes
@@ -22,7 +24,8 @@ override_utf8_locale yes
 TEXT
 
 ${color #ddaa00}System $hr
-${color white}Ubuntu 8.04 "Hardy Heron"
+${color white}${exec cat /etc/issue | tr -d '\\n\\l\n'}
+${color white}${exec cat /etc/linuxmint/info | grep 'DESKTOP' | tr 'A-Z' 'a-z' | sed -e "s/\b\(.\)/\u\1/g"}
 ${color white}$sysname ${color white}$kernel (${color white}$machine)
 ${color white}Procesy: $processes ${color white}w trakcie: $running_processes
 ${color white}Czas pracy: $uptime
@@ -48,15 +51,13 @@ ${color white}${fs_bar /}
 ${color white}swap: ${swap}/${swapmax} $alignr ${swapperc}%
 ${color white}${swapbar}
 ${color #ddaa00}Internet $hr
-${if_existing /proc/net/route wlan0}${color white}IP WiFi: ${addr wlan0}
-${color white}Pobieranie: ${downspeedf wlan0} KB/s $alignr ${totaldown wlan0}
-${color white}Wysyłanie: ${upspeedf wlan0} KB/s $alignr ${totalup wlan0}
-${else}${if_existing /proc/net/route eth0}${color white}IP Ethernet: ${addr eth0}
-${color white}Pobieranie: ${downspeedf eth0} KB/s $alignr ${totaldown eth0}
-${color white}Wysyłanie: ${upspeedf eth0} KB/s $alignr ${totalup etho}
-${else}
-Network disconnected
-${endif}${endif}
-
-
-
+${if_existing /proc/net/route enp0s3}${color white}IP Ethernet: ${addr enp0s3}
+${color white}Pobieranie: ${downspeedf enp0s3} KB/s $alignr ${totaldown enp0s3}
+${color white}Wysyłanie: ${upspeedf enp0s3} KB/s $alignr ${totalup enp0s3}
+${else}Ethernet network disconnected
+${endif}
+${if_existing /proc/net/route e1000}${color white}IP Wifi: ${addr e1000}
+${color white}Pobieranie: ${downspeedf e1000} KB/s $alignr ${totaldown e1000}
+${color white}Wysyłanie: ${upspeedf e1000} KB/s $alignr ${totalup e1000}
+${else}Wifi network disconnected
+${endif}
